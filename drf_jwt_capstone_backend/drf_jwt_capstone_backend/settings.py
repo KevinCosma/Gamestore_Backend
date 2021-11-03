@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'authentication.apps.AuthenticationConfig',
     'corsheaders',
-    'gamestore.apps.GamestoreConfig',
+    'games.apps.GamesConfig',
 ]
 
 MIDDLEWARE = [

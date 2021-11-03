@@ -1,6 +1,6 @@
 from django.urls import path
-from gamestore import views
+from games import views
 
-urlpatters = [
+urlpatterns = [
     path('', views.GameList.as_view())
 ]
