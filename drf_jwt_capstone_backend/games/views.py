@@ -18,12 +18,19 @@ def get_all_games(request):
     serializer = GameSerializer(games, many=True)
     return Response(serializer.data)
 
-@api_view(['POST'])
+@api_view(['POST', 'GET'])
 @permission_classes([IsAuthenticated])
 def user_games(request):
+
+    print('User', f"{request.user.id} {request.user.email} {request.user.username}")
+
     if request.method == 'POST':
         serializer = GameSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'GET':
+        games = Game.objects.filter(userid=request.user.id)
+        serializer = GameSerializer(games, many=True)
+        return Response(serializer.data)
