@@ -1,18 +1,20 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.db.models.fields import CharField
 User = get_user_model()
 
 # Create your models here.
-class GameType(models.Model):
-    type = models.CharField(max_length=50)
-    price = models.IntegerField(default=0)
-
-
-
 class Game(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE,)
-    videoGame = models.CharField(max_length=50)
-    cardGame = models.CharField(max_length=50)
-    boardGame = models.CharField(max_length=50)
-    game_type = models.ForeignKey(GameType, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=50)
+    description = models.CharField(max_length=150)
+    price = models.IntegerField(default=0)
+    ageRecommendation = models.IntegerField(null=True)
+    category = models.CharField(max_length=150)
 
+class Comment(models.Model):
+    text = models.CharField(max_length=500)
+
+class Reply(models.Model):
+    comment = models.ForeignKey('Comment', on_delete=models.CASCADE)
+    text = models.CharField(max_length=500) 
