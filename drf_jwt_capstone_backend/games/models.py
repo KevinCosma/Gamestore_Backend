@@ -12,9 +12,10 @@ class Game(models.Model):
     ageRecommendation = models.IntegerField(null=True)
     category = models.CharField(max_length=150)
 
-class Comment(models.Model):
-    text = models.CharField(max_length=500)
 
-class Reply(models.Model):
-    comment = models.ForeignKey('Comment', on_delete=models.CASCADE)
-    text = models.CharField(max_length=500) 
+
+class Comment(models.Model):
+    topic = models.CharField(max_length=20, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=True)
+    text = models.CharField(max_length=500)
+       

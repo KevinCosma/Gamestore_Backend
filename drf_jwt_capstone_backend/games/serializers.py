@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from .models import Game
 from .models import Comment
-from .models import Reply
 
 class GameSerializer(serializers.ModelSerializer):
     class Meta:
@@ -12,11 +11,10 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ['id', 'text']
+        fields = ['id', 'topic', 'user', 'text']
 
 
-class ReplySerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Reply
-        fields = ['id', 'text', 'comment']
+# class DiscussionPostSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = DiscussionPost
+#         fields = ['id', 'comment', 'reply']
