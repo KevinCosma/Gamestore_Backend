@@ -91,3 +91,31 @@ class GameDetail(APIView):
         game = self.get_object(pk)
         game.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class VideoGameList(APIView):
+
+    def get(self,request):
+        videogame = Game.objects.filter(category = "Video Game")
+        serializer = GameSerializer(videogame, many=True)
+        return Response(serializer.data)
+
+class CardGameList(APIView):
+
+    def get(self,request):
+        cardgame = Game.objects.filter(category = "Card Game")
+        serializer = GameSerializer(cardgame, many=True)
+        return Response(serializer.data)
+
+class BoardGameList(APIView):
+
+    def get(self,request):
+        boardgame = Game.objects.filter(category = "Board Game")
+        serializer = GameSerializer(boardgame, many=True)
+        return Response(serializer.data)
+
+class DnDList(APIView):
+
+    def get(self,request):
+        dnd = Game.objects.filter(category = "DnD")
+        serializer = GameSerializer(dnd, many=True)
+        return Response(serializer.data)
