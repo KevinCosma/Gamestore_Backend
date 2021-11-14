@@ -8,8 +8,9 @@ from rest_framework.decorators import api_view, permission_classes
 from django.http.response import Http404
 from .models import Game
 from .models import Comment
-from .serializers import GameSerializer
+from .serializers import GameSerializer, ShoppingCartSerilaizer
 from .serializers import CommentSerializer
+from .serializers import ShoppingCart
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -136,4 +137,11 @@ class DnDList(APIView):
     def get(self,request):
         dnd = Game.objects.filter(category = "DnD")
         serializer = GameSerializer(dnd, many=True)
+        return Response(serializer.data)
+
+class ShoppingCart(APIView):
+    
+    def get(self,request):
+        shoppingCart = ShoppingCart.all()
+        serializer = ShoppingCartSerilaizer(shoppingCart, many=True)
         return Response(serializer.data)

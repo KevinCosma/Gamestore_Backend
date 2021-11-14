@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Game
+from .models import Game, ShoppingCart, Users
 from .models import Comment
 
 class GameSerializer(serializers.ModelSerializer):
@@ -14,7 +14,19 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ['id', 'topic', 'user', 'text']
 
 
-# class DiscussionPostSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = DiscussionPost
-#         fields = ['id', 'comment', 'reply']
+class ShoppingCartSerilaizer(serializers.Serializer):
+
+    class Meta:
+        model = ShoppingCart
+        fields = ['id', 'user', 'game']
+
+class UsersSerializer(serializers.Serializer):
+
+    class Meta:
+        model = Users
+        fields = ['id', 'firstName', 'lastName', 'email', 'username', 'street', 'city', 'state', 'zipCode']
+
+class Roles(serializers.Serializer):
+
+    class Meta:
+        fields = ['id', 'seller', 'buyer']

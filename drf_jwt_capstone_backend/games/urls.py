@@ -11,6 +11,6 @@ urlpatterns = [
     path('games/videogames/', views.VideoGameList.as_view()),
     path('games/cardgames/', views.CardGameList.as_view()),
     path('games/boardgames/', views.BoardGameList.as_view()),
-    path('games/dnd/', views.DnDList.as_view())
-
+    path('games/dnd/', views.DnDList.as_view()),
+    path('shoppingcart/', views.ShoppingCart.as_view())
 ]
