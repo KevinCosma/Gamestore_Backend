@@ -1,32 +1,33 @@
 from rest_framework import serializers
-from .models import Game, ShoppingCart, Users
+from .models import Game, ShoppingCart, User, Role
 from .models import Comment
 
 class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Game
-        fields = ['id', 'user', 'title', 'description', 'price', 'ageRecommendation', 'category']
+        fields = ['id', 'title', 'description', 'price', 'ageRecommendation', 'category']
 
 class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ['id', 'topic', 'user', 'text']
+        fields = ['id', 'topic', 'text']
 
 
-class ShoppingCartSerilaizer(serializers.Serializer):
+class ShoppingCartSerializer(serializers.Serializer):
 
     class Meta:
         model = ShoppingCart
-        fields = ['id', 'user', 'game']
+        fields = ['id', 'user', 'game', 'quantity']
 
-class UsersSerializer(serializers.Serializer):
-
-    class Meta:
-        model = Users
-        fields = ['id', 'firstName', 'lastName', 'email', 'username', 'street', 'city', 'state', 'zipCode']
-
-class Roles(serializers.Serializer):
+class UserSerializer(serializers.Serializer):
 
     class Meta:
+        model = User
+        fields = ['id', 'firstName', 'lastName', 'email', 'username']
+
+class Role(serializers.Serializer):
+
+    class Meta:
+        model = Role
         fields = ['id', 'seller', 'buyer']

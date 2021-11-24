@@ -8,9 +8,10 @@ from rest_framework.decorators import api_view, permission_classes
 from django.http.response import Http404
 from .models import Game
 from .models import Comment
-from .serializers import GameSerializer, ShoppingCartSerilaizer
+from.models import ShoppingCart
+from .serializers import GameSerializer
 from .serializers import CommentSerializer
-from .serializers import ShoppingCart
+from .serializers import ShoppingCartSerializer
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -139,9 +140,42 @@ class DnDList(APIView):
         serializer = GameSerializer(dnd, many=True)
         return Response(serializer.data)
 
-class ShoppingCart(APIView):
+class ShoppingCartDetail(APIView):
     
-    def get(self,request):
-        shoppingCart = ShoppingCart.all()
-        serializer = ShoppingCartSerilaizer(shoppingCart, many=True)
+    def get_object(self, pk):
+        try:
+            return ShoppingCart.objects.get(pk=pk)
+        except Game.DoesNotExist:
+            raise Http404
+    
+    def get(self, request, pk):
+        cart = self.get_object(pk)
+        serializer = ShoppingCartSerializer(cart)
         return Response(serializer.data)
+
+    def delete(self, request, pk):
+        cart = self.get_object(pk)
+        cart.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    def put(self, request, pk, fk):
+        cart = self.get_object(pk, fk)
+        serializer = ShoppingCartSerializer(cart, data=request.data)
+        if serializer.is_valid():
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ShoppingCartList(APIView):
+
+    def get(self, request):
+        cart = ShoppingCart.objects.all()
+        serializer = ShoppingCartSerializer(cart, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = ShoppingCartSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
